@@ -13,8 +13,8 @@
         }
         body {
             font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;
-            background-color: #000;
-            color: #fff;
+            background-color: #121212; /* Dark charcoal */
+            color: #F5F5F5; /* Frothy white */
         }
         /* Banner Section */
         .banner {
@@ -36,14 +36,14 @@
         .banner-buttons {
             text-align: center;
             padding: 20px 0;
-            background-color: #FFC107;
+            background-color: #FFB300; /* Amber */
         }
         .banner-buttons a {
             display: inline-block;
             margin: 0 10px;
             padding: 10px 20px;
-            background-color: #FF5722;
-            color: #fff;
+            background-image: linear-gradient(to right, #4A148C, #FF4081); /* Purple to neon pink */
+            color: #F5F5F5;
             text-decoration: none;
             font-size: 18px;
             border-radius: 5px;
@@ -56,10 +56,20 @@
         .presale {
             padding: 40px 20px;
             text-align: center;
-            background-color: #1a1a1a;
+            background-color: #121212;
+            display: flex;
+            justify-content: center;
+        }
+        .presale-card {
+            background: linear-gradient(135deg, #1A0033, #3E0047); /* Dark purple gradient */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
         }
         .presale h2 {
-            color: #FFC107;
+            color: #FFB300; /* Amber */
             font-size: 36px;
             margin-bottom: 20px;
         }
@@ -69,13 +79,26 @@
         }
         .presale .timer {
             font-size: 24px;
-            color: #FF5722;
+            color: #FF4081; /* Neon pink */
             margin-bottom: 20px;
         }
         .presale .price-info {
             font-size: 20px;
-            color: #FFC107;
+            color: #FFB300; /* Amber */
             margin-bottom: 20px;
+        }
+        .presale .progress-bar {
+            width: 100%;
+            background-color: #333;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .presale .progress {
+            height: 10px;
+            background-image: linear-gradient(to right, #4A148C, #FF4081); /* Purple to neon pink */
+            width: 0%;
+            transition: width 0.5s;
         }
         .presale input {
             padding: 10px;
@@ -84,11 +107,13 @@
             width: 200px;
             border-radius: 5px;
             border: none;
+            background-color: #F5F5F5;
+            color: #121212;
         }
         .presale button {
             padding: 10px 20px;
-            background-color: #FF5722;
-            color: #fff;
+            background-image: linear-gradient(to right, #4A148C, #FF4081); /* Purple to neon pink */
+            color: #F5F5F5;
             border: none;
             border-radius: 5px;
             font-size: 18px;
@@ -101,7 +126,7 @@
         .presale .wallet-info {
             margin-top: 20px;
             font-size: 16px;
-            color: #ccc;
+            color: #B0BEC5; /* Light gray for contrast */
             word-break: break-all;
         }
         /* Responsive Design */
@@ -136,16 +161,22 @@
 
     <!-- Auto Presale Section -->
     <section id="presale" class="presale">
-        <h2>Auto Presale: Grab Your BOOZ! 🍺</h2>
-        <p>Join the presale and get your share of 300M BOOZ tokens! Pay with SOL and receive BOOZ automatically.</p>
-        <div class="timer" id="presale-timer">Presale Ends in: 7 Days</div>
-        <div class="price-info" id="price-info">Current Price: $0.00001 per BOOZ (Round 1)</div>
-        <p>Current SOL Price: <span id="sol-price">Fetching...</span> USD</p>
-        <p>Enter amount of BOOZ to buy:</p>
-        <input type="number" id="booz-amount" placeholder="Enter BOOZ amount" min="1">
-        <p>Total SOL: <span id="sol-amount">0</span> SOL</p>
-        <button onclick="buyBooz()">Buy BOOZ Now</button>
-        <p class="wallet-info">Presale Wallet: HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy</p>
+        <div class="presale-card">
+            <h2>Auto Presale: Grab Your BOOZ! 🍺</h2>
+            <p>Join the presale and get your share of 300M BOOZ tokens! Pay with SOL and receive BOOZ automatically.</p>
+            <div class="timer" id="presale-timer">Presale Ends in: 7 Days</div>
+            <div class="price-info" id="price-info">Current Price: $0.00001 per BOOZ (OG Round)</div>
+            <p>Current SOL Price: <span id="sol-price">Fetching...</span> USD</p>
+            <p>Tokens Sold: <span id="tokens-sold">0</span>/300M</p>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <p>Enter amount of BOOZ to buy:</p>
+            <input type="number" id="booz-amount" placeholder="Enter BOOZ amount" min="1">
+            <p>Total SOL: <span id="sol-amount">0</span> SOL</p>
+            <button onclick="buyBooz()">Buy BOOZ Now</button>
+            <p class="wallet-info">Presale Wallet: HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy</p>
+        </div>
     </section>
 
     <script src="https://unpkg.com/@solana/pay@0.2.0/dist/index.js"></script>
@@ -164,25 +195,25 @@
             }
         }
         fetchSolPrice();
-        setInterval(fetchSolPrice, 60000); // Update every minute
+        setInterval(fetchSolPrice, 60000);
 
         // Presale Logic
         let tokensSold = 0;
         const rounds = [
-            { cap: 100000000, price: 0.00001, round: 1 }, // 100M at $0.00001
-            { cap: 200000000, price: 0.00002, round: 2 }, // Next 100M at $0.00002
-            { cap: 300000000, price: 0.00003, round: 3 }  // Final 100M at $0.00003
+            { cap: 100000000, price: 0.00001, round: 'OG Round', raised: 1000 },
+            { cap: 200000000, price: 0.00002, round: 'WL Round', raised: 2000 },
+            { cap: 300000000, price: 0.00003, round: 'Public', raised: 3000 }
         ];
         let currentRound = 0;
 
         function getCurrentPrice() {
             if (tokensSold >= rounds[2].cap) {
-                return { price: 0, round: 'Ended' };
+                return { price: 0, round: 'Ended', raised: 0 };
             }
             for (let i = 0; i < rounds.length; i++) {
                 if (tokensSold < rounds[i].cap) {
                     currentRound = i;
-                    return { price: rounds[i].price, round: rounds[i].round };
+                    return { price: rounds[i].price, round: rounds[i].round, raised: rounds[i].raised };
                 }
             }
         }
@@ -190,12 +221,17 @@
         function updatePriceDisplay() {
             const { price, round } = getCurrentPrice();
             const priceInfo = document.getElementById('price-info');
+            const tokensSoldDisplay = document.getElementById('tokens-sold');
+            const progressBar = document.getElementById('progress-bar');
+            tokensSoldDisplay.innerText = tokensSold.toLocaleString();
+            const progressPercent = (tokensSold / 300000000) * 100;
+            progressBar.style.width = `${progressPercent}%`;
             if (round === 'Ended') {
                 priceInfo.innerText = 'Presale Ended!';
                 document.getElementById('booz-amount').disabled = true;
                 document.querySelector('.presale button').disabled = true;
             } else {
-                priceInfo.innerText = `Current Price: $${price} per BOOZ (Round ${round})`;
+                priceInfo.innerText = `Current Price: $${price} per BOOZ (${round})`;
             }
         }
 
@@ -209,7 +245,7 @@
             }
             const totalUsd = boozAmount * price;
             const solAmount = totalUsd / solPriceInUsd;
-            document.getElementById('sol-amount').innerText = solAmount.toFixed(4);
+            document.getElementById('sol-amount').innerText = solAmount.toFixed(6);
         });
 
         // Solana Pay for Token Purchase
@@ -243,7 +279,7 @@
             const paymentRequest = new window.SolanaPay.PaymentRequest({
                 recipient: 'HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy',
                 amount: solAmount,
-                reference: `BoozerPresale_Round${round}`,
+                reference: `BoozerPresale_${round}`,
                 label: 'BoozCoin Presale'
             });
             window.location.href = paymentRequest.toUrl();
@@ -251,7 +287,7 @@
 
         // Presale Timer
         function startTimer() {
-            const endDate = new Date('2025-06-12T23:59:59'); // 7 days from June 5, 2025
+            const endDate = new Date('2025-06-12T23:59:59');
             const timerElement = document.getElementById('presale-timer');
             setInterval(() => {
                 const now = new Date();
