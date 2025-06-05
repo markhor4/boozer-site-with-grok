@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boozer (BoozCoin) - Solana Meme Coin</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;
+            background-color: #000; /* Black background like current site, we’ll tweak later */
+            color: #fff;
+        }
+        /* Banner Section */
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Adjust based on banner size */
+            overflow: hidden;
+        }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures banner fits nicely */
+            animation: bounce 2s infinite; /* Bounce animation for Boozer */
+        }
+        /* Bounce Animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        /* Buttons Below Banner */
+        .banner-buttons {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #FFC107; /* Yellow background for buttons */
+        }
+        .banner-buttons a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #FF5722; /* Orange buttons */
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        .banner-buttons a:hover {
+            transform: scale(1.1); /* Scale up on hover */
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .banner {
+                height: 300px;
+            }
+            .banner-buttons a {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner Section -->
+    <section class="banner">
+        <img src="boozer-banner.png" alt="Boozer Banner - Solana’s Tipsiest Meme Coin">
+    </section>
+    <!-- Buttons Below Banner -->
+    <div class="banner-buttons">
+        <a href="#airdrop">Join Airdrop</a>
+        <a href="#presale">Buy BOOZ Now</a>
+    </div>
+
+    <!-- Other sections will go here -->
+</body>
+</html>
