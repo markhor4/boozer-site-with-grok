@@ -110,6 +110,18 @@
             background-color: #F5F5F5;
             color: #121212;
         }
+        .presale .result-boxes {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .presale .result-box {
+            background-color: #2A003D;
+            padding: 10px;
+            border-radius: 5px;
+            width: 45%;
+            font-size: 16px;
+        }
         .presale button {
             padding: 10px 20px;
             background-image: linear-gradient(to right, #4A148C, #FF4081);
@@ -165,6 +177,13 @@
             .presale input[type="number"] {
                 width: 80%;
             }
+            .presale .result-boxes {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .presale .result-box {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -191,9 +210,16 @@
             <div class="progress-bar">
                 <div class="progress" id="progress-bar"></div>
             </div>
-            <p>Enter amount of BOOZ to buy:</p>
-            <input type="number" id="booz-amount" placeholder="Enter BOOZ amount" min="1">
-            <p>Total Cost: <span id="total-cost">0</span> SOL</p>
+            <p>Enter amount in USD to spend:</p>
+            <input type="number" id="usd-amount" placeholder="Enter USD amount" min="1" step="0.01">
+            <div class="result-boxes">
+                <div class="result-box">
+                    <p>You’ll get: <span id="booz-amount">0</span> BOOZ</p>
+                </div>
+                <div class="result-box">
+                    <p>Total Cost: <span id="sol-cost">0</span> SOL</p>
+                </div>
+            </div>
             <button onclick="buyBooz()">Buy BOOZ Now</button>
             <p class="wallet-info">Presale Wallet: HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy</p>
 
@@ -254,30 +280,38 @@
             progressBar.style.width = `${progressPercent}%`;
             if (round === 'Ended') {
                 priceInfo.innerText = 'Presale Ended!';
-                document.getElementById('booz-amount').disabled = true;
+                document.getElementById('usd-amount').disabled = true;
                 document.querySelector('.presale button').disabled = true;
             } else {
                 priceInfo.innerText = `Current Price: $${price} per BOOZ (${round})`;
             }
         }
 
-        // Calculate SOL Cost
-        const boozAmountInput = document.getElementById('booz-amount');
-        const totalCostDisplay = document.getElementById('total-cost');
+        // Calculate BOOZ and SOL based on USD Input
+        const usdAmountInput = document.getElementById('usd-amount');
+        const boozAmountDisplay = document.getElementById('booz-amount');
+        const solCostDisplay = document.getElementById('sol-cost');
 
-        function updateCost() {
-            const boozAmount = parseInt(boozAmountInput.value) || 0;
+        function updateCalculations() {
+            const usdAmount = parseFloat(usdAmountInput.value) || 0;
             const { price } = getCurrentPrice();
-            if (solPriceInUsd === 0) {
-                totalCostDisplay.innerText = 'Waiting for SOL price...';
+            if (price === 0) {
+                boozAmountDisplay.innerText = '0';
+                solCostDisplay.innerText = '0';
                 return;
             }
-            const totalUsd = boozAmount * price;
-            const solAmount = totalUsd / solPriceInUsd;
-            totalCostDisplay.innerText = solAmount.toFixed(6);
+            if (solPriceInUsd === 0) {
+                boozAmountDisplay.innerText = 'Waiting for SOL price...';
+                solCostDisplay.innerText = 'Waiting for SOL price...';
+                return;
+            }
+            const boozAmount = Math.floor(usdAmount / price);
+            const solAmount = usdAmount / solPriceInUsd;
+            boozAmountDisplay.innerText = boozAmount.toLocaleString();
+            solCostDisplay.innerText = solAmount.toFixed(6);
         }
 
-        boozAmountInput.addEventListener('input', updateCost);
+        usdAmountInput.addEventListener('input', updateCalculations);
 
         // Transaction History
         const transactionList = document.getElementById('transaction-list');
@@ -301,9 +335,9 @@
 
         // Buy BOOZ
         async function buyBooz() {
-            const boozAmount = parseInt(boozAmountInput.value) || 0;
-            if (boozAmount <= 0) {
-                alert('Please enter a valid BOOZ amount.');
+            const usdAmount = parseFloat(usdAmountInput.value) || 0;
+            if (usdAmount <= 0) {
+                alert('Please enter a valid USD amount.');
                 return;
             }
 
@@ -318,13 +352,13 @@
                 return;
             }
 
-            // Calculate SOL and USD
-            const totalUsd = boozAmount * price;
-            const solAmount = totalUsd / solPriceInUsd;
+            // Calculate BOOZ and SOL
+            const boozAmount = Math.floor(usdAmount / price);
+            const solAmount = usdAmount / solPriceInUsd;
 
             // Simulate token sale (in production, use a Solana contract)
             tokensSold += boozAmount;
-            addTransaction(totalUsd, boozAmount);
+            addTransaction(usdAmount, boozAmount);
             updatePriceDisplay();
 
             // Solana Pay
@@ -339,14 +373,14 @@
 
         // Presale Timer
         function startTimer() {
-            const endDate = new Date('2025-06-12T23:59:59');
+            const endDate = new Date('2025-06-12T23:59:59'); // 7 days from June 5, 2025
             const timerElement = document.getElementById('presale-timer');
             setInterval(() => {
                 const now = new Date();
                 const timeLeft = endDate - now;
                 if (timeLeft <= 0) {
                     timerElement.innerText = 'Presale Ended!';
-                    document.getElementById('booz-amount').disabled = true;
+                    document.getElementById('usd-amount').disabled = true;
                     document.querySelector('.presale button').disabled = true;
                     return;
                 }
