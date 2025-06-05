@@ -13,14 +13,14 @@
         }
         body {
             font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;
-            background-color: #121212; /* Dark charcoal */
-            color: #F5F5F5; /* Frothy white */
+            background-color: #121212;
+            color: #F5F5F5;
         }
         /* Banner Section */
         .banner {
             position: relative;
             width: 100%;
-            padding-bottom: 60.49%; /* 1084/1792 ≈ 0.6049 */
+            padding-bottom: 60.49%;
             height: 0;
             overflow: hidden;
         }
@@ -36,13 +36,13 @@
         .banner-buttons {
             text-align: center;
             padding: 20px 0;
-            background-color: #FFB300; /* Amber */
+            background-color: #FFB300;
         }
         .banner-buttons a {
             display: inline-block;
             margin: 0 10px;
             padding: 10px 20px;
-            background-image: linear-gradient(to right, #4A148C, #FF4081); /* Purple to neon pink */
+            background-image: linear-gradient(to right, #4A148C, #FF4081);
             color: #F5F5F5;
             text-decoration: none;
             font-size: 18px;
@@ -61,7 +61,7 @@
             justify-content: center;
         }
         .presale-card {
-            background: linear-gradient(135deg, #1A0033, #3E0047); /* Dark purple gradient */
+            background: linear-gradient(135deg, #1A0033, #3E0047);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
@@ -69,7 +69,7 @@
             width: 100%;
         }
         .presale h2 {
-            color: #FFB300; /* Amber */
+            color: #FFB300;
             font-size: 36px;
             margin-bottom: 20px;
         }
@@ -79,12 +79,12 @@
         }
         .presale .timer {
             font-size: 24px;
-            color: #FF4081; /* Neon pink */
+            color: #FF4081;
             margin-bottom: 20px;
         }
         .presale .price-info {
             font-size: 20px;
-            color: #FFB300; /* Amber */
+            color: #FFB300;
             margin-bottom: 20px;
         }
         .presale .progress-bar {
@@ -96,11 +96,11 @@
         }
         .presale .progress {
             height: 10px;
-            background-image: linear-gradient(to right, #4A148C, #FF4081); /* Purple to neon pink */
+            background-image: linear-gradient(to right, #4A148C, #FF4081);
             width: 0%;
             transition: width 0.5s;
         }
-        .presale input {
+        .presale input[type="number"] {
             padding: 10px;
             font-size: 16px;
             margin-bottom: 10px;
@@ -112,7 +112,7 @@
         }
         .presale button {
             padding: 10px 20px;
-            background-image: linear-gradient(to right, #4A148C, #FF4081); /* Purple to neon pink */
+            background-image: linear-gradient(to right, #4A148C, #FF4081);
             color: #F5F5F5;
             border: none;
             border-radius: 5px;
@@ -126,8 +126,28 @@
         .presale .wallet-info {
             margin-top: 20px;
             font-size: 16px;
-            color: #B0BEC5; /* Light gray for contrast */
+            color: #B0BEC5;
             word-break: break-all;
+        }
+        .transaction-history {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1A0033, #3E0047);
+            border-radius: 10px;
+        }
+        .transaction-history h3 {
+            color: #FFB300;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .transaction-history ul {
+            list-style: none;
+            padding: 0;
+        }
+        .transaction-history li {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #F5F5F5;
         }
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -142,7 +162,7 @@
             .presale .timer, .presale .price-info {
                 font-size: 20px;
             }
-            .presale input {
+            .presale input[type="number"] {
                 width: 80%;
             }
         }
@@ -163,7 +183,7 @@
     <section id="presale" class="presale">
         <div class="presale-card">
             <h2>Auto Presale: Grab Your BOOZ! 🍺</h2>
-            <p>Join the presale and get your share of 300M BOOZ tokens! Pay with SOL and receive BOOZ automatically.</p>
+            <p>Join the presale and get your share of 300M BOOZ tokens! Pay with SOL.</p>
             <div class="timer" id="presale-timer">Presale Ends in: 7 Days</div>
             <div class="price-info" id="price-info">Current Price: $0.00001 per BOOZ (OG Round)</div>
             <p>Current SOL Price: <span id="sol-price">Fetching...</span> USD</p>
@@ -173,9 +193,15 @@
             </div>
             <p>Enter amount of BOOZ to buy:</p>
             <input type="number" id="booz-amount" placeholder="Enter BOOZ amount" min="1">
-            <p>Total SOL: <span id="sol-amount">0</span> SOL</p>
+            <p>Total Cost: <span id="total-cost">0</span> SOL</p>
             <button onclick="buyBooz()">Buy BOOZ Now</button>
             <p class="wallet-info">Presale Wallet: HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy</p>
+
+            <!-- Transaction History -->
+            <div class="transaction-history">
+                <h3>Your Transactions</h3>
+                <ul id="transaction-list"></ul>
+            </div>
         </div>
     </section>
 
@@ -191,7 +217,7 @@
                 document.getElementById('sol-price').innerText = `$${solPriceInUsd}`;
             } catch (error) {
                 console.error('Error fetching SOL price:', error);
-                document.getElementById('sol-price').innerText = 'Error fetching price';
+                document.getElementById('sol-price').innerText = 'Error';
             }
         }
         fetchSolPrice();
@@ -235,22 +261,47 @@
             }
         }
 
-        // Calculate SOL needed based on BOOZ amount
-        document.getElementById('booz-amount').addEventListener('input', function() {
-            const boozAmount = parseInt(this.value) || 0;
+        // Calculate SOL Cost
+        const boozAmountInput = document.getElementById('booz-amount');
+        const totalCostDisplay = document.getElementById('total-cost');
+
+        function updateCost() {
+            const boozAmount = parseInt(boozAmountInput.value) || 0;
             const { price } = getCurrentPrice();
             if (solPriceInUsd === 0) {
-                document.getElementById('sol-amount').innerText = 'Waiting for SOL price...';
+                totalCostDisplay.innerText = 'Waiting for SOL price...';
                 return;
             }
             const totalUsd = boozAmount * price;
             const solAmount = totalUsd / solPriceInUsd;
-            document.getElementById('sol-amount').innerText = solAmount.toFixed(6);
-        });
+            totalCostDisplay.innerText = solAmount.toFixed(6);
+        }
 
-        // Solana Pay for Token Purchase
+        boozAmountInput.addEventListener('input', updateCost);
+
+        // Transaction History
+        const transactionList = document.getElementById('transaction-list');
+        let transactions = JSON.parse(localStorage.getItem('boozTransactions')) || [];
+
+        function addTransaction(usdSpent, boozReceived) {
+            transactions.push({ usdSpent, boozReceived, timestamp: new Date().toLocaleString() });
+            localStorage.setItem('boozTransactions', JSON.stringify(transactions));
+            renderTransactions();
+        }
+
+        function renderTransactions() {
+            transactionList.innerHTML = '';
+            transactions.forEach(tx => {
+                const li = document.createElement('li');
+                li.innerText = `Spent $${tx.usdSpent.toFixed(2)} USD, Received ${tx.boozReceived.toLocaleString()} BOOZ on ${tx.timestamp}`;
+                transactionList.appendChild(li);
+            });
+        }
+        renderTransactions();
+
+        // Buy BOOZ
         async function buyBooz() {
-            const boozAmount = parseInt(document.getElementById('booz-amount').value) || 0;
+            const boozAmount = parseInt(boozAmountInput.value) || 0;
             if (boozAmount <= 0) {
                 alert('Please enter a valid BOOZ amount.');
                 return;
@@ -267,15 +318,16 @@
                 return;
             }
 
-            // Calculate SOL needed
+            // Calculate SOL and USD
             const totalUsd = boozAmount * price;
             const solAmount = totalUsd / solPriceInUsd;
 
             // Simulate token sale (in production, use a Solana contract)
             tokensSold += boozAmount;
+            addTransaction(totalUsd, boozAmount);
             updatePriceDisplay();
 
-            // Create Solana Pay request
+            // Solana Pay
             const paymentRequest = new window.SolanaPay.PaymentRequest({
                 recipient: 'HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy',
                 amount: solAmount,
