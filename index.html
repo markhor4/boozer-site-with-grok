@@ -278,6 +278,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            min-height: 600px; /* Reserve space to prevent layout shift */
         }
         .about-card img {
             width: 300px;
@@ -285,9 +286,19 @@
             object-fit: contain;
             border-radius: 10px;
             border: 2px solid #FF4081;
+            aspect-ratio: 1/1; /* Maintain aspect ratio */
+        }
+        .about-card .games-preview img {
+            width: 300px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 2px solid #FF4081;
+            aspect-ratio: 300/200; /* Explicit aspect ratio for boozer-games-preview.png */
         }
         .about-card .content {
             text-align: left;
+            flex: 1;
         }
         .about-card h2 {
             color: #FFB300;
@@ -306,13 +317,6 @@
             font-size: 16px;
             color: #FFB300;
             margin-bottom: 5px;
-        }
-        .about-card .games-preview img {
-            width: 300px;
-            height: 300px;
-            object-fit: contain;
-            border-radius: 10px;
-            border: 2px solid #FF4081;
         }
         /* Tokenomics Section */
         .tokenomics {
@@ -588,10 +592,15 @@
             .about-card {
                 flex-direction: column;
                 text-align: center;
+                min-height: 700px; /* Adjusted for mobile */
             }
-            .about-card img, .about-card .games-preview img {
+            .about-card img {
                 width: 200px;
                 height: 200px;
+            }
+            .about-card .games-preview img {
+                width: 200px;
+                height: 133.33px; /* Maintain 300/200 aspect ratio */
             }
             .about-card .content {
                 text-align: center;
@@ -647,15 +656,15 @@
 </head>
 <body>
     <!-- Fixed Scrolling Images -->
-    <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug" class="boozer-mascot">
+    <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug" class="boozer-mascot" onerror="this.src='fallback-mascot.png';">
     <div class="boozer-logo-container">
-        <img src="boozer-logo.png" alt="Boozer Logo" class="boozer-logo">
+        <img src="boozer-logo.png" alt="Boozer Logo" class="boozer-logo" onerror="this.src='fallback-logo.png';">
         <p class="booz-it-up">Booz It Up</p>
     </div>
 
     <!-- Banner Section -->
     <section class="banner">
-        <img src="boozer-banner.png" alt="Boozer Banner - Solana’s Tipsiest Meme Coin">
+        <img src="boozer-banner.png" alt="Boozer Banner - Solana’s Tipsiest Meme Coin" onerror="this.src='fallback-banner.png';">
     </section>
     <!-- Buttons Below Banner -->
     <div class="banner-buttons">
@@ -687,7 +696,7 @@
             </div>
             <button onclick="buyBooz()">Buy BOOZ Now</button>
             <p class="wallet-info">Presale Wallet: HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy</p>
-            <p class="airdrop-info">Airdrop live now! Join on <a href="https://x.com/your-airdrop-post" target="_blank">X</a>.</p>
+            <p class="airdrop-info">Airdrop live now! Join on <a href="https://x.com/boozer_coin" target="_blank">X</a>.</p>
 
             <!-- Transaction History -->
             <div class="transaction-history">
@@ -737,19 +746,19 @@
 
     <!-- About Boozer Section -->
     <section id="about-boozer" class="about-boozer">
-    <div class="about-card">
-        <img src="about-boozer.png" alt="Boozer Mascot - Tipsy Beer Mug" onerror="this.src='fallback-mascot.png';">
-        <div class="content">
-            <h2>Meet Boozer: Solana’s Tipsiest Meme Coin! 🍺</h2>
-            <p>Boozer (BoozCoin) is the wildest meme coin on Solana, bringing the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and community fun. Join our 300M token presale to raise a glass together!</p>
-            <div class="games-preview">
-                <p class="funny-line">Get ready to stumble into fun! 🍺</p>
-                <p class="funny-line">Boozer Games: Where every win tastes like victory (and beer)! 🎮</p>
-                <img src="boozer-games-preview.png" alt="Boozer Games Preview - Party Gameplay" onerror="this.src='fallback-games.png';">
+        <div class="about-card">
+            <img src="about-boozer.png" alt="Boozer Mascot - Tipsy Beer Mug" onerror="this.src='fallback-mascot.png';">
+            <div class="content">
+                <h2>Meet Boozer: Solana’s Tipsiest Meme Coin! 🍺</h2>
+                <p>Boozer (BoozCoin) is the wildest meme coin on Solana, bringing the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and community fun. Join our 300M token presale to raise a glass together!</p>
+                <div class="games-preview">
+                    <p class="funny-line">Get ready to stumble into fun! 🍺</p>
+                    <p class="funny-line">Boozer Games: Where every win tastes like victory (and beer)! 🎮</p>
+                    <img src="boozer-games-preview.png" alt="Boozer Games Preview - Party Gameplay" onerror="this.src='fallback-games.png';">
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Tokenomics Section -->
     <section id="tokenomics" class="tokenomics">
@@ -778,50 +787,50 @@
     </section>
 
     <!-- Roadmap Section -->
- <section id="roadmap" class="roadmap">
-    <div class="roadmap-card">
-        <h2>Boozer Roadmap: Our Tipsy Journey! 🍺</h2>
-        <p class="intro">Here’s how we’re pouring out the fun in our boozy adventure!</p>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Round 1 🎉</h3>
-                    <p>Airdrop Kickoff & Presale Launch</p>
+    <section id="roadmap" class="roadmap">
+        <div class="roadmap-card">
+            <h2>Boozer Roadmap: Our Tipsy Journey! 🍺</h2>
+            <p class="intro">Here’s how we’re pouring out the fun in our boozy adventure!</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 1 🎉</h3>
+                        <p>Airdrop Kickoff & Presale Launch</p>
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Round 2 📣</h3>
-                    <p>Marketing with memes, influencers</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 2 📣</h3>
+                        <p>Marketing with memes, influencers</p>
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Round 3 🚀</h3>
-                    <p>Dex launch & Boozer madness</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 3 🚀</h3>
+                        <p>Dex launch & Boozer madness</p>
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Round 4 📈</h3>
-                    <p>Listing on Raydium & Jupiter, CoinGecko & CoinMarketCap listings</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 4 📈</h3>
+                        <p>Listing on Raydium & Jupiter, CoinGecko & CoinMarketCap listings</p>
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Round 5 🎮</h3>
-                    <p>Game development & launch</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 5 🎮</h3>
+                        <p>Game development & launch</p>
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Round 6 🌍</h3>
-                    <p>Token Listing on Major Exchanges</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 6 🌍</h3>
+                        <p>Token Listing on Major Exchanges</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Socials Section -->
     <section id="socials" class="socials">
