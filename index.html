@@ -220,6 +220,44 @@
         .how-it-works-card tr:last-child td {
             border-bottom: none;
         }
+        /* About Boozer Section */
+        .about-boozer {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #121212;
+            display: flex;
+            justify-content: center;
+        }
+        .about-card {
+            background: linear-gradient(135deg, #1A0033, #3E0047);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .about-card img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 2px solid #FF4081;
+        }
+        .about-card .content {
+            text-align: left;
+        }
+        .about-card h2 {
+            color: #FFB300;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .about-card p {
+            font-size: 16px;
+            color: #F5F5F5;
+        }
         /* Responsive Design */
         @media (max-width: 768px) {
             .banner-buttons a {
@@ -227,7 +265,7 @@
                 margin: 10px auto;
                 width: 80%;
             }
-            .presale h2, .how-it-works-card h2 {
+            .presale h2, .how-it-works-card h2, .about-card h2 {
                 font-size: 28px;
             }
             .presale .timer, .presale .price-info {
@@ -248,6 +286,17 @@
             }
             .how-it-works-card th, .how-it-works-card td {
                 padding: 8px;
+            }
+            .about-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .about-card img {
+                width: 150px;
+                height: 150px;
+            }
+            .about-card .content {
+                text-align: center;
             }
         }
     </style>
@@ -332,6 +381,17 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </section>
+
+    <!-- About Boozer Section -->
+    <section id="about-boozer" class="about-boozer">
+        <div class="about-card">
+            <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug">
+            <div class="content">
+                <h2>Meet Boozer: Solana’s Tipsiest Meme Coin! 🍺</h2>
+                <p>Boozer (BoozCoin) is the wildest meme coin on Solana, here to bring the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and boozy games. Join our 300M token presale and let’s raise a glass together!</p>
+            </div>
         </div>
     </section>
 
