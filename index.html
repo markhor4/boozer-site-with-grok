@@ -14,13 +14,13 @@
         body {
             font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;
             background-color: #121212;
-            color: #F5F5F5;
+            color: #F5F5F5
         }
         /* Banner Section */
         .banner {
             position: relative;
             width: 100%;
-            padding-bottom: 60.49%;
+            padding-bottom: 56.49%; /* Adjusted for better banner ratio */
             height: 0;
             overflow: hidden;
         }
@@ -43,7 +43,7 @@
             margin: 0 10px;
             padding: 10px 20px;
             background-image: linear-gradient(to right, #4A148C, #FF4081);
-            color: #F5F5F5;
+            color: #F5F5F5
             text-decoration: none;
             font-size: 18px;
             border-radius: 5px;
@@ -54,7 +54,7 @@
         }
         /* Auto Presale Section */
         .presale {
-            padding: 40px 20px;
+            padding: 40px 20px
             text-align: center;
             background-color: #121212;
             display: flex;
@@ -78,6 +78,7 @@
             margin-bottom: 20px;
         }
         .presale .timer {
+            font-size {
             font-size: 24px;
             color: #FF4081;
             margin-bottom: 20px;
@@ -91,7 +92,7 @@
             width: 100%;
             background-color: #333;
             border-radius: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 20px
             overflow: hidden;
         }
         .presale .progress {
@@ -125,7 +126,7 @@
         .presale button {
             padding: 10px 20px;
             background-image: linear-gradient(to right, #4A148C, #FF4081);
-            color: #F5F5F5;
+            color: #F5F5F5
             border: none;
             border-radius: 5px;
             font-size: 18px;
@@ -139,6 +140,7 @@
             margin-top: 20px;
             font-size: 16px;
             color: #B0BEC5;
+ font-size
             word-break: break-all;
         }
         .presale .airdrop-info {
@@ -171,7 +173,7 @@
         .transaction-history li {
             font-size: 16px;
             margin-bottom: 10px;
-            color: #F5F5F5;
+            color: #F5F5F5
         }
         /* Presale: How It Works Section */
         .presale-how-it-works {
@@ -232,7 +234,7 @@
             background: linear-gradient(135deg, #1A0033, #3E0047);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5
             max-width: 800px;
             width: 100%;
             display: flex;
@@ -308,6 +310,7 @@
     </section>
     <!-- Buttons Below Banner -->
     <div class="banner-buttons">
+        <div class="banner">
         <a href="#airdrop">Join Airdrop</a>
         <a href="#presale">Buy BOOZ Now</a>
     </div>
@@ -317,7 +320,7 @@
         <div class="presale-card">
             <h2>Auto Presale: Grab Your BOOZ! 🍺</h2>
             <p>Join the presale and get your share of 300M BOOZ tokens! Pay with SOL.</p>
-            <div class="timer" id="presale-timer">Presale Starts on June 25, 2025!</div>
+            <div class="presale-timer" id="presale-timer">Presale Starts on June 25, 2025!</div>
             <div class="price-info" id="price-info">Current Price: $0.00001 per BOOZ (🍺Boozer Shot)</div>
             <p>Current SOL Price: <span id="sol-price">Fetching...</span> USD</p>
             <p>Tokens Sold: <span id="tokens-sold">0</span>/300M</p>
@@ -340,6 +343,7 @@
 
             <!-- Transaction History -->
             <div class="transaction-history">
+                <div class="history">
                 <h3>Your Transactions</h3>
                 <ul id="transaction-list"></ul>
             </div>
@@ -362,17 +366,20 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>🍺 Boozer Shot</td>
+                        <td>🍺 Boozer</td>
                         <td>100,000,000</td>
                         <td>$0.00001</td>
                         <td>First sip — for early believers</td>
                     </tr>
+                    <tr>
                     <tr>
                         <td>🍻 Boozer Cheers</td>
                         <td>100,000,000</td>
                         <td>$0.00002</td>
                         <td>Raise a toast — WL celebration</td>
                     </tr>
+                    </tr>
+                    <tr>
                     <tr>
                         <td>🎉 Boozer Party</td>
                         <td>100,000,000</td>
@@ -387,7 +394,7 @@
     <!-- About Boozer Section -->
     <section id="about-boozer" class="about-boozer">
         <div class="about-card">
-            <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug">
+            <img src="about-boozer.png" alt="Boozer Mascot - Tipsy Beer Mug">
             <div class="content">
                 <h2>Meet Boozer: Solana’s Tipsiest Meme Coin! 🍺</h2>
                 <p>Boozer (BoozCoin) is the wildest meme coin on Solana, here to bring the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and boozy games. Join our 300M token presale and let’s raise a glass together!</p>
@@ -566,12 +573,12 @@
                 reference: `BoozerPresale_${round}`,
                 label: 'BoozCoin Presale'
             });
-            window.location.href = paymentRequest.toUrl();
+            window.location.href = paymentRequest.toString();
         }
 
         // Presale Timer (after start)
         function startTimer() {
-            const endDate = new Date('2025-07-02T23:59:59+05:00'); // 7 days from June 25, 2025
+            const endDate = new Date('2025-07-02T00:00:00+05:00'); // 7 days from June 25, 2025
             const timerElement = document.getElementById('presale-timer');
             setInterval(() => {
                 const now = new Date();
