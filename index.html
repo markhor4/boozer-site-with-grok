@@ -16,6 +16,31 @@
             background-color: #121212;
             color: #F5F5F5;
         }
+        /* Fixed Scrolling Images */
+        .boozer-mascot {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 2px solid #FF4081;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .boozer-logo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 2px solid #FF4081;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
         /* Banner Section */
         .banner {
             position: relative;
@@ -501,6 +526,17 @@
         }
         /* Responsive Design */
         @media (max-width: 768px) {
+            .boozer-mascot, .boozer-logo {
+                width: 70px;
+                height: 70px;
+                top: 10px;
+            }
+            .boozer-mascot {
+                left: 10px;
+            }
+            .boozer-logo {
+                right: 10px;
+            }
             .banner-buttons a {
                 display: block;
                 margin: 10px auto;
@@ -573,9 +609,19 @@
                 margin: 5px;
             }
         }
+        @media (max-width: 480px) {
+            .boozer-mascot, .boozer-logo {
+                width: 50px;
+                height: 50px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Fixed Scrolling Images -->
+    <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug" class="boozer-mascot">
+    <img src="boozer-logo.png" alt="Boozer Logo" class="boozer-logo">
+
     <!-- Banner Section -->
     <section class="banner">
         <img src="boozer-banner.png" alt="Boozer Banner - Solana’s Tipsiest Meme Coin">
