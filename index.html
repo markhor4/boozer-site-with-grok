@@ -29,17 +29,32 @@
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
             z-index: 1000;
         }
-        .boozer-logo {
+        .boozer-logo-container {
             position: fixed;
             top: 20px;
             right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+        }
+        .boozer-logo {
             width: 100px;
             height: 100px;
             object-fit: contain;
             border-radius: 10px;
             border: 2px solid #FF4081;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
+        }
+        .booz-it-up {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(to right, #4A148C, #FF4081);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(255, 64, 129, 0.5);
+            text-align: center;
         }
         /* Banner Section */
         .banner {
@@ -526,16 +541,22 @@
         }
         /* Responsive Design */
         @media (max-width: 768px) {
-            .boozer-mascot, .boozer-logo {
+            .boozer-mascot {
                 width: 70px;
                 height: 70px;
                 top: 10px;
-            }
-            .boozer-mascot {
                 left: 10px;
             }
-            .boozer-logo {
+            .boozer-logo-container {
+                top: 10px;
                 right: 10px;
+            }
+            .boozer-logo {
+                width: 70px;
+                height: 70px;
+            }
+            .booz-it-up {
+                font-size: 12px;
             }
             .banner-buttons a {
                 display: block;
@@ -610,9 +631,16 @@
             }
         }
         @media (max-width: 480px) {
-            .boozer-mascot, .boozer-logo {
+            .boozer-mascot {
                 width: 50px;
                 height: 50px;
+            }
+            .boozer-logo {
+                width: 50px;
+                height: 50px;
+            }
+            .booz-it-up {
+                font-size: 10px;
             }
         }
     </style>
@@ -620,7 +648,10 @@
 <body>
     <!-- Fixed Scrolling Images -->
     <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug" class="boozer-mascot">
-    <img src="boozer-logo.png" alt="Boozer Logo" class="boozer-logo">
+    <div class="boozer-logo-container">
+        <img src="boozer-logo.png" alt="Boozer Logo" class="boozer-logo">
+        <p class="booz-it-up">Booz It Up</p>
+    </div>
 
     <!-- Banner Section -->
     <section class="banner">
@@ -677,7 +708,7 @@
                         <th>Round Name</th>
                         <th>Tokens</th>
                         <th>Price</th>
-                        <th>Theme</th>
+                        <th>Tagline</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -685,19 +716,19 @@
                         <td>🍺 Boozer Shot</td>
                         <td>100,000,000</td>
                         <td>$0.00001</td>
-                        <td>First sip — for early believers</td>
+                        <td>First sip — for early boozers</td>
                     </tr>
                     <tr>
                         <td>🍻 Boozer Cheers</td>
                         <td>100,000,000</td>
                         <td>$0.00002</td>
-                        <td>Raise a toast — WL celebration</td>
+                        <td>Raise a glass — boozers celebration</td>
                     </tr>
                     <tr>
-                        <td>🎉 Boozer Party</td>
+                        <td>🎉 Party Popper</td>
                         <td>100,000,000</td>
                         <td>$0.00003</td>
-                        <td>Let’s go public — open bar!</td>
+                        <td>Let’s party — open bar!</td>
                     </tr>
                 </tbody>
             </table>
@@ -710,7 +741,7 @@
             <img src="about-boozer.png" alt="Boozer Mascot - Tipsy Beer Mug">
             <div class="content">
                 <h2>Meet Boozer: Solana’s Tipsiest Meme Coin! 🍺</h2>
-                <p>Boozer (BoozCoin) is the wildest meme coin on Solana, here to bring the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and our hilarious Boozer Games where you can win big while having a laugh. Check out a sneak peek below and join our 300M token presale to raise a glass together!</p>
+                <p>Boozer (BoozCoin) is the wildest meme coin on Solana, bringing the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and our hilarious Boozer Games where you can win big while having a laugh. Check out a sneak peek below and join our 300M token presale to raise a glass together!</p>
                 <div class="games-preview">
                     <p class="funny-line">Get ready to stumble into fun! 🍺</p>
                     <p class="funny-line">Boozer Games: Where every win tastes like victory (and beer)! 🎮</p>
