@@ -1,11 +1,11 @@
 // Initialize Solana connection (Devnet for testing)
 const connection = new solanaWeb3.Connection('https://api.devnet.solana.com', 'confirmed');
-const BOOZ_MINT = new solanaWeb3.PublicKey('YOUR_DEVNET_MINT_ADDRESS'); // Replace with Devnet mint for testing
-const PRESALE_WALLET = new solanaWeb3.PublicKey('HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy');
+const BOOZ_MINT = new solanaWeb3.PublicKey('YOUR_DEVNET_MINT_ADDRESS'); // Replace with Devnet mint
+const PRESALE_WALLET = new solanaWeb3.PublicKey('HY6Po9XbgiZEzt24phc4uo2q5syac5rfb2axg5h8t7vy');
 let userWallet = null;
 
-// Backend URL (temporary for local testing)
-const BACKEND_URL = 'http://localhost:3000'; // Update to Vercel URL after deployment
+// Backend URL (commented out until deployed)
+// const BACKEND_URL = 'http://localhost:3000'; // Update to Vercel URL after deployment
 
 // Fetch Live SOL Price
 let solPriceInUSD = 0;
@@ -15,10 +15,10 @@ async function fetchSolPrice() {
         if (!response.ok) throw new Error('API request failed');
         const data = await response.json();
         solPriceInUSD = data.solana.usd || 0;
-        document.getElementById('sol-price').innerText = solPriceInUSD ? `$${solPriceInUSD.toFixed(2)}` : 'Price unavailable';
+        document.getElementById('sol-price').innerText = solPriceInUSD ? `${solPriceInUSD.toFixed(2)}` : 'N/A';
     } catch (error) {
         console.error('Error fetching SOL price:', error);
-        document.getElementById('sol-price').innerText = 'Price unavailable';
+        document.getElementById('sol-price').innerText = 'N/A';
     }
 }
 fetchSolPrice();
@@ -30,14 +30,14 @@ async function connectWallet() {
         try {
             await window.solana.connect();
             userWallet = window.solana.publicKey;
-            document.getElementById('connected-wallet').textContent = `Wallet: ${userWallet.toString()}`;
+            document.getElementById('connected-wallet').innerText = `Wallet: ${userWallet.toString().slice(0, 4)}...${userWallet.toString().slice(-4)}`;
             updateButtonState();
         } catch (error) {
             console.error('Wallet connection failed:', error);
-            alert('Failed to connect wallet. Please try again.');
+            alert('Failed to connect wallet.');
         }
     } else {
-        alert('Please install a Solana wallet like Phantom.');
+        alert('Install a Solana wallet like Phantom.');
     }
 }
 
@@ -45,9 +45,10 @@ async function connectWallet() {
 let tokensSold = 0;
 async function fetchTokensSold() {
     try {
-        const response = await fetch(`${BACKEND_URL}/api/tokens-sold`);
-        const data = await response.json();
-        tokensSold = data.tokensSold || 0;
+        // Uncomment when backend is deployed
+        // const response = await fetch(`${BACKEND_URL}/api/tokens-sold`);
+        // const data = await response.json();
+        // tokensSold = data.tokensSold || 0;
         updatePriceDisplay();
     } catch (error) {
         console.error('Error fetching tokens sold:', error);
@@ -80,13 +81,13 @@ function updatePriceDisplay() {
     const priceInfo = document.getElementById('price-info');
     const tokensSoldDisplay = document.getElementById('tokens-sold');
     const progressBar = document.getElementById('progress-bar');
-    tokensSoldDisplay.textContent = tokensSold.toLocaleString();
+    tokensSoldDisplay.innerText = tokensSold.toLocaleString();
     const progressPercent = (tokensSold / 300000000) * 100;
     progressBar.style.width = `${progressPercent}%`;
     if (price === 0) {
-        priceInfo.textContent = 'Presale Ended!';
+        priceInfo.innerText = 'Presale Ended!';
     } else {
-        priceInfo.textContent = `Current Price: $${price.toFixed(6)} per BOOZ (${round})`;
+        priceInfo.innerText = `Current Price: $${price.toFixed(6)} per BOOZ (${round})`;
     }
     updateButtonState();
 }
@@ -103,11 +104,11 @@ function checkPresaleStatus() {
         const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        timerElement.textContent = `Presale Starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        timerElement.innerText = `Presale Starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
     } else if (now < presaleEndDate) {
         startTimer();
     } else {
-        timerElement.textContent = 'Presale Ended!';
+        timerElement.innerText = 'Presale Ended!';
     }
     updateButtonState();
 }
@@ -126,15 +127,20 @@ const boozAmountDisplay = document.getElementById('booz-amount');
 const usdCostDisplay = document.getElementById('usd-cost');
 function updateCalculations() {
     const solAmount = parseFloat(solAmountInput.value) || 0;
+    if (solAmount < 0.05 || solAmount > 5) {
+        alert('Please enter a SOL amount between 0.05 and 5.');
+        solAmountInput.value = 0.05;
+        return;
+    }
     const { price } = getCurrentPrice();
     if (price === 0) {
-        boozAmountDisplay.textContent = '0';
-        usdCostDisplay.textContent = '0';
+        boozAmountDisplay.innerText = '0';
+        usdCostDisplay.innerText = '0';
         return;
     }
     if (solPriceInUSD === 0) {
-        boozAmountDisplay.textContent = 'Waiting for SOL price...';
-        usdCostDisplay.textContent = '$0';
+        boozAmountDisplay.innerText = 'Waiting for SOL price...';
+        usdCostDisplay.innerText = '0';
         return;
     }
     const usdAmount = Number((solAmount * solPriceInUSD).toFixed(8));
@@ -143,14 +149,14 @@ function updateCalculations() {
     if (boozAmount > remainingTokens) {
         boozAmount = remainingTokens;
     }
-    boozAmountDisplay.textContent = boozAmount.toLocaleString();
-    usdCostDisplay.textContent = usdAmount.toFixed(2);
+    boozAmountDisplay.innerText = boozAmount.toLocaleString();
+    usdCostDisplay.innerText = usdAmount.toFixed(2);
     updateButtonState();
 }
 solAmountInput.addEventListener('input', updateCalculations);
 
 // Transaction History
-const transactionList = document.getElementById('transaction-list');
+const transactionList = document.getElementById('transactions');
 let transactions = JSON.parse(localStorage.getItem('boozTransactions')) || [];
 function addTransaction(usdSpent, boozReceived, signature) {
     transactions.push({ usdSpent, boozReceived, timestamp: new Date().toLocaleString(), signature });
@@ -161,7 +167,7 @@ function renderTransactions() {
     transactionList.innerHTML = '';
     transactions.forEach(tx => {
         const li = document.createElement('li');
-        li.innerHTML = `Spent $${tx.usdSpent.toFixed(2)} USD, Received ${tx.boozReceived.toLocaleString()} BOOZ on ${tx.timestamp} (<a href="https://explorer.solana.com/tx/${tx.signature}?cluster=devnet" target="_blank">View</a>)`;
+        li.innerHTML = `Spent $${tx.usdSpent.toFixed(2)}, Got ${tx.boozReceived.toLocaleString()} BOOZ on ${tx.timestamp} (<a href="https://explorer.solana.com/tx/${tx.signature}?cluster=devnet" target="_blank">View</a>)`;
         transactionList.appendChild(li);
     });
 }
@@ -170,17 +176,17 @@ renderTransactions();
 // Buy BOOZ
 async function buyBooz() {
     if (!userWallet) {
-        alert('Please connect your wallet first.');
+        alert('Connect your wallet first.');
         return;
     }
     const solAmount = parseFloat(solAmountInput.value) || 0;
     if (solAmount < 0.05 || solAmount > 5) {
-        alert('Please enter a SOL amount between 0.05 and 5.');
+        alert('Enter a SOL amount between 0.05 and 5.');
         return;
     }
     const now = new Date();
     if (now < presaleStartDate) {
-        alert('Presale has not started yet! It starts on June 25, 2025.');
+        alert('Presale starts June 25, 2025.');
         return;
     }
     if (now >= presaleEndDate) {
@@ -193,7 +199,7 @@ async function buyBooz() {
         return;
     }
     if (solPriceInUSD === 0) {
-        alert('SOL price not available. Please try again later.');
+        alert('SOL price unavailable. Try again later.');
         return;
     }
 
@@ -201,12 +207,11 @@ async function buyBooz() {
     let boozAmount = Math.floor(Number((usdAmount / price).toFixed(8)));
     const remainingTokens = 300000000 - tokensSold;
     if (boozAmount > remainingTokens) {
-        alert(`Purchase exceeds remaining tokens! Only ${remainingTokens.toLocaleString()} BOOZ left.`);
+        alert(`Only ${remainingTokens.toLocaleString()} BOOZ left!`);
         return;
     }
 
     try {
-        // Create SOL transfer transaction
         const transaction = new solanaWeb3.Transaction();
         const lamports = Math.floor(solAmount * solanaWeb3.LAMPORTS_PER_SOL);
         transaction.add(
@@ -217,44 +222,41 @@ async function buyBooz() {
             })
         );
 
-        // Sign and send transaction
         transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
         transaction.feePayer = userWallet;
         const signed = await window.solana.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(signed.serialize());
 
-        // Poll for confirmation
         const confirmation = await connection.confirmTransaction(signature, 'confirmed');
         if (confirmation.value.err) {
             throw new Error('Transaction failed');
         }
 
-        // Notify backend
-        const response = await fetch(`${BACKEND_URL}/api/buy`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                signature,
-                solAmount,
-                usdAmount,
-                boozAmount,
-                wallet: userWallet.toString(),
-                round
-            })
-        });
-        if (!response.ok) {
-            throw new Error('Backend verification failed');
-        }
+        // Uncomment when backend is deployed
+        // const response = await fetch(`${BACKEND_URL}/api/buy`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         signature,
+        //         solAmount,
+        //         usdAmount,
+        //         boozAmount,
+        //         wallet: userWallet.toString(),
+        //         round
+        //     })
+        // });
+        // if (!response.ok) {
+        //     throw new Error('Backend verification failed');
+        // }
 
-        // Update UI
         tokensSold += boozAmount;
         addTransaction(usdAmount, boozAmount, signature);
         updatePriceDisplay();
         updateCalculations();
-        alert('Purchase successful! BOOZ tokens sent to your wallet.');
+        alert('Purchase successful! BOOZ tokens sent.');
     } catch (error) {
         console.error('Purchase error:', error);
-        alert('Purchase failed. Please try again.');
+        alert('Purchase failed. Try again.');
     }
 }
 
@@ -265,7 +267,7 @@ function startTimer() {
         const now = new Date();
         const timeLeft = presaleEndDate - now;
         if (timeLeft <= 0) {
-            timerElement.textContent = 'Presale Ended!';
+            timerElement.innerText = 'Presale Ended!';
             updateButtonState();
             return;
         }
@@ -273,218 +275,12 @@ function startTimer() {
         const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        timerElement.textContent = `Presale Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        timerElement.innerText = `Presale Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
 }
 
-// Attach event listeners
-document.querySelector('.wallet-connect').addEventListener('click', connectWallet);
-document.getElementById('buy-booz').addEventListener('click', buyBooz);
-
-// Initialize
-checkPresaleStatus();
-updatePriceDisplay();
-updateCalculations();
-// From index.html inline <script>
-// Fetch Live SOL Price
-let solPriceInUSD = 0;
-async function fetchSolPrice() {
-    try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
-        const data = await response.json();
-        solPriceInUSD = data.solana.usd;
-        document.getElementById('sol-price').innerText = `$${solPriceInUSD.toFixed(2)}`;
-    } catch (error) {
-        console.error('Error fetching SOL price:', error);
-        document.getElementById('sol-price').innerText = 'Error';
-    }
-}
-fetchSolPrice();
-setInterval(fetchSolPrice, 60000);
-
-// Presale Logic
-let tokensSold = 0;
-function getCurrentPrice() {
-    if (tokensSold >= 300000000) {
-        return { price: 0, round: 'Ended' };
-    }
-    const step = Math.floor(tokensSold / 5000000) + 1;
-    let price, round;
-    if (tokensSold < 100000000) { // Boozer Shot
-        price = 0.00003 + (step - 1) * 0.000002;
-        round = '🍺 Boozer Shot';
-    } else if (tokensSold < 200000000) { // Boozer Cheers
-        price = 0.00004 + (step - 21) * 0.000002;
-        round = '🍻 Boozer Cheers';
-    } else { // Party Popper
-        price = 0.00005 + (step - 41) * 0.000002;
-        round = '🎉 Party Popper';
-    }
-    return { price: price, round: round };
-}
-
-function updatePriceDisplay() {
-    const { price, round } = getCurrentPrice();
-    const priceInfo = document.getElementById('price-info');
-    const tokensSoldDisplay = document.getElementById('tokens-sold');
-    const progressBar = document.getElementById('progress-bar');
-    tokensSoldDisplay.textContent = tokensSold.toLocaleString();
-    const progressPercent = (tokensSold / 300000000) * 100;
-    progressBar.style.width = `${progressPercent}%`;
-    if (price === 0) {
-        priceInfo.textContent = 'Presale Ended!';
-    } else {
-        priceInfo.textContent = `Current Price: $${price.toFixed(6)} per BOOZ (${round})`;
-    }
-}
-
-// Check Presale Start Date
-const presaleStartDate = new Date('2025-06-25T00:00:00+05:00'); // PKT timezone
-function checkPresaleStatus() {
-    const now = new Date();
-    const timerElement = document.getElementById('presale-timer');
-    if (now < presaleStartDate) {
-        const timeLeft = presaleStartDate - now;
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        timerElement.textContent = `Presale Starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-    } else {
-        startTimer();
-    }
-}
-setInterval(checkPresaleStatus, 1000);
-
-// Calculate BOOZ and USD based on SOL Input
-const solAmountInput = document.getElementById('sol-amount');
-const boozAmountDisplay = document.getElementById('booz-amount');
-const usdCostDisplay = document.getElementById('usd-cost');
-
-function updateCalculations() {
-    const solAmount = parseFloat(solAmountInput.value) || 0;
-    const { price } = getCurrentPrice();
-    if (price === 0) {
-        boozAmountDisplay.textContent = '0';
-        usdCostDisplay.textContent = '0';
-        console.log('Presale ended, no BOOZ calculated.');
-        return;
-    }
-    if (solPriceInUSD === 0) {
-        boozAmountDisplay.textContent = 'Waiting for SOL price...';
-        usdCostDisplay.textContent = '$0';
-        console.log('SOL price not available.');
-        return;
-    }
-    const usdAmount = Number((solAmount * solPriceInUSD).toFixed(8));
-    let boozAmount = Math.floor(Number((usdAmount / price).toFixed(8)));
-    const remainingTokens = 300000000 - tokensSold;
-    if (boozAmount > remainingTokens) {
-        boozAmount = remainingTokens;
-        console.log(`Capped BOOZ at ${boozAmount} due to remaining tokens.`);
-    }
-    boozAmountDisplay.textContent = boozAmount.toLocaleString();
-    usdCostDisplay.textContent = usdAmount.toFixed(2);
-    console.log(`SOL: ${solAmount}, SOL Price: ${solPriceInUSD}, USD: ${usdAmount}, BOOZ Price: ${price}, BOOZ: ${boozAmount}`);
-}
-
-solAmountInput.addEventListener('input', updateCalculations);
-
-// Transaction History
-const transactionList = document.getElementById('transaction-list');
-let transactions = JSON.parse(localStorage.getItem('boozTransactions')) || [];
-
-function addTransaction(usdSpent, boozReceived) {
-    transactions.push({ usdSpent, boozReceived, timestamp: new Date().toLocaleString() });
-    localStorage.setItem('boozTransactions', JSON.stringify(transactions));
-    renderTransactions();
-}
-
-function renderTransactions() {
-    transactionList.innerHTML = '';
-    transactions.forEach(tx => {
-        const li = document.createElement('li');
-        li.textContent = `Spent $${tx.usdSpent.toFixed(2)} USD, Received ${tx.boozReceived.toLocaleString()} BOOZ on ${tx.timestamp}`;
-        transactionList.appendChild(li);
-    });
-}
-renderTransactions();
-
-// Buy BOOZ
-async function buyBooz() {
-    const solAmount = parseFloat(solAmountInput.value) || 0;
-    if (solAmount < 0.05) {
-        alert('Minimum purchase is 0.05 SOL!');
-        return;
-    }
-    if (solAmount > 5) {
-        alert('Maximum purchase is 5 SOL!');
-        return;
-    }
-    if (solAmount <= 0) {
-        alert('Please enter a valid SOL amount.');
-        return;
-    }
-
-    const now = new Date();
-    if (now < presaleStartDate) {
-        alert('Presale has not started yet! It starts on June 25, 2025.');
-        return;
-    }
-
-    const { price, round } = getCurrentPrice();
-    if (round === 'Ended') {
-        alert('Presale has ended!');
-        return;
-    }
-
-    if (solPriceInUSD === 0) {
-        alert('SOL price not available. Please try again later.');
-        return;
-    }
-
-    const usdAmount = Number((solAmount * solPriceInUSD).toFixed(8));
-    let boozAmount = Math.floor(Number((usdAmount / price).toFixed(8)));
-    const remainingTokens = 300000000 - tokensSold;
-    if (boozAmount > remainingTokens) {
-        alert(`Purchase exceeds remaining tokens! Only ${remainingTokens.toLocaleString()} BOOZ left.`);
-        return;
-    }
-    tokensSold += boozAmount;
-    addTransaction(usdAmount, boozAmount);
-    updatePriceDisplay();
-    updateCalculations();
-
-    // Solana Pay
-    const paymentRequest = new window.SolanaPay.PaymentRequest({
-        recipient: 'HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy',
-        amount: solAmount,
-        reference: `BoozerPresale_${round}`,
-        label: 'BoozCoin Presale'
-    });
-    window.location.href = paymentRequest.toString();
-}
-
-// Presale Timer (after start)
-function startTimer() {
-    const endDate = new Date('2025-07-02T00:00:00+05:00'); // 7 days from June 25, 2025
-    const timerElement = document.getElementById('presale-timer');
-    setInterval(() => {
-        const now = new Date();
-        const timeLeft = endDate - now;
-        if (timeLeft <= 0) {
-            timerElement.textContent = 'Presale Ended!';
-            return;
-        }
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        timerElement.textContent = `Presale Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }, 1000);
-}
-
-// Event listener for Buy BOOZ button
+// Event Listeners
+document.querySelector('.connecter').addEventListener('click', connectWallet);
 document.getElementById('buy-booz').addEventListener('click', buyBooz);
 
 // Initialize
