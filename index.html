@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://api.coingecko.com; connect-src 'self' https://api.coingecko.com https://api.mainnet-beta.solana.com https://api.devnet.solana.com http://localhost:3000 ws://localhost:* http://localhost:*; style-src 'self'; img-src 'self';">
+    <title>Boozer (BoozCoin) - Solana Meme Coin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fixed Scrolling Images -->
+    <img src="boozer-mascot.png" alt="Boozer Mascot - Tipsy Beer Mug" class="boozer-mascot">
+    <div class="boozer-logo-container">
+        <img src="boozer-logo.png" alt="Boozer Logo" class="boozer-logo">
+        <p class="booz-it-up">Booz It Up</p>
+    </div>
+
+    <!-- Banner Section -->
+    <section class="banner">
+        <img src="boozer-banner.png" alt="Boozer Banner - Solana’s Tipsiest Meme Coin">
+    </section>
+    <div class="banner-buttons">
+        <a href="#airdrop">Join Airdrop</a>
+        <a href="#presale">Buy BOOZ Now</a>
+    </div>
+
+    <!-- Auto Presale Section -->
+    <section id="presale" class="presale">
+        <div class="presale-card">
+            <h2>Auto Presale: Grab Your BOOZ! 🍺</h2>
+            <p>Join the presale and get your share of 300M BOOZ tokens! Pay with SOL.</p>
+            <div class="timer" id="presale-timer">Presale Starts on June 25, 2025!</div>
+            <div class="price-info" id="price-info">Current Price: $0.00003 per BOOZ (🍺 Boozer Shot)</div>
+            <div class="price-note">Prices increase gradually so Grab Your BOOZ early!</div>
+            <p>Current SOL Price: <span id="sol-price">Fetching...</span> USD</p>
+            <p>Tokens Sold: <span id="tokens-sold">0</span>/300M</p>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <p>Enter 0.05–5 SOL to buy BOOZ!</p>
+            <button class="wallet-connect">Connect Wallet</button>
+            <p class="wallet-info" id="connected-wallet">Wallet: Not connected</p>
+            <input type="number" id="sol-amount" placeholder="Enter SOL amount" min="0.05" max="5" step="0.0001" value="0.05">
+            <div class="result-boxes">
+                <div class="result-box">
+                    <p>You’ll get: <span id="booz-amount">0</span> BOOZ</p>
+                </div>
+                <div class="result-box">
+                    <p>Total Cost: <span id="usd-cost">0</span> USD</p>
+                </div>
+            </div>
+            <button id="buy-booz" disabled>Buy BOOZ Now</button>
+            <p class="wallet-info">Presale Wallet: HY6po9XbgiZEztwbphc4Uo2q5SYAc5RFb1Axg5h8T7Vy</p>
+            <p class="airdrop-info">Airdrop live now! Join on <a href="https://x.com/boozer_coin" target="_blank">X</a>.</p>
+
+            <!-- Transaction History -->
+            <div class="transaction-history">
+                <h3>Your Transactions</h3>
+                <ul id="transaction-list"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Boozer Section -->
+    <section id="about-boozer" class="about-boozer">
+        <div class="about-card">
+            <div class="image-container">
+                <img src="about-boozer.png" alt="Boozer Mascot - Tipsy Beer Mug" loading="eager">
+            </div>
+            <div class="content">
+                <h2>Meet Boozer: Solana’s Tipsiest Meme Coin! 🍺</h2>
+                <p>Boozer (BoozCoin) is the wildest meme coin on Solana, bringing the party to the blockchain! With a total supply of 1B tokens, we’re all about good vibes, epic airdrops, and community fun. Join our 300M token presale to raise a glass together!</p>
+                <div class="games-preview">
+                    <p class="funny-line">Get ready to stumble into fun! 🍺</p>
+                    <p class="funny-line">Boozer Games: Where every win tastes like victory (and beer)! 🎮</p>
+                    <div class="image-container">
+                        <img src="boozer-games-preview.png" alt="Boozer Games Preview - Party Gameplay" loading="eager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="tokenomics">
+        <div class="tokenomics-card">
+            <h2>Boozer Tokenomics: Let’s Break It Down! 🍺</h2>
+            <p class="intro">Here’s how we’re pouring out our 1B BOOZ tokens to keep the party going!</p>
+            <div class="tokenomics-chart">
+                <div class="tokenomics-bar" style="height: 75px;"><span>Presale: 30%</span></div>
+                <div class="tokenomics-bar" style="height: 150px;"><span>Liquidity: 60%</span></div>
+                <div class="tokenomics-bar" style="height: 10px;"><span>Airdrops: 4%</span></div>
+                <div class="tokenomics-bar" style="height: 6px;"><span>Team: 2.5%</span></div>
+                <div class="tokenomics-bar" style="height: 6px;"><span>Marketing: 2.5%</span></div>
+                <div class="tokenomics-bar" style="height: 3px;"><span>Reserve: 1%</span></div>
+            </div>
+            <div class="tokenomics-list">
+                <ul>
+                    <li><span>Presale</span> <span>30% (300M tokens)</span></li>
+                    <li><span>Liquidity Pool</span> <span>60% (600M tokens)</span></li>
+                    <li><span>Airdrops, Gaming & Community Rewards</span> <span>4% (40M tokens)</span></li>
+                    <li><span>Team & Development</span> <span>2.5% (25M tokens)</span></li>
+                    <li><span>Marketing & Partnerships</span> <span>2.5% (25M tokens)</span></li>
+                    <li><span>Reserve</span> <span>1% (10M tokens)</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap">
+        <div class="roadmap-card">
+            <h2>Boozer Roadmap: Our Tipsy Journey! 🍺</h2>
+            <p class="intro">Here’s how we’re pouring out the fun in our boozy adventure!</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 1 🎉</h3>
+                        <p>Airdrop Kickoff & Presale Launch</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 2 📣</h3>
+                        <p>Marketing with memes, influencers</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 3 🚀</h3>
+                        <p>Dex launch & Boozer madness 🚀 Listing on Raydium & Jupiter</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 4 📈</h3>
+                        <p>CoinGecko, CoinMarketCap listings & Marketing 📈</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 5 🎮</h3>
+                        <p>Game developments 🎮</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Round 6 🤝</h3>
+                        <p>CEX listings & partnerships 🤝</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Socials Section -->
+    <section id="socials" class="socials">
+        <div class="socials-card">
+            <h2>Join the Boozer Party! 🍺</h2>
+            <p class="intro">Follow us on our socials to stay updated on airdrops, games, and more boozy fun!</p>
+            <div class="socials-links">
+                <a href="https://x.com/boozer_coin" target="_blank">X</a>
+                <a href="https://discord.gg/NTThcf8z" target="_blank">Discord</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section id="disclaimer" class="disclaimer">
+        <div class="disclaimer-card">
+            <h2>Disclaimer</h2>
+            <p>BoozCoin (BOOZ) is a meme coin created for entertainment purposes only. It has no intrinsic value and is not intended as an investment. Cryptocurrencies are highly volatile and risky. Always conduct your own research (DYOR) before participating. The Boozer team is not responsible for any financial losses.</p>
+        </div>
+    </section>
+
+    <script defer src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+    <script defer src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
+    <script defer src="script.js"></script>
+</body>
+</html>
