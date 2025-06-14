@@ -1,3 +1,4 @@
+/* From index.html <style> block */
 /* Basic Reset */
 * {
     margin: 0;
@@ -9,6 +10,7 @@ body {
     background-color: #121212;
     color: #F5F5F5;
 }
+/* Fixed Scrolling Images */
 .boozer-mascot {
     position: fixed;
     top: 20px;
@@ -50,6 +52,7 @@ body {
     text-shadow: 0 0 5px rgba(255, 64, 129, 0.5);
     text-align: center;
 }
+/* Banner Section */
 .banner {
     position: relative;
     width: 100%;
@@ -66,6 +69,7 @@ body {
     object-fit: cover;
     transition: none;
 }
+/* Buttons Below Banner */
 .banner-buttons {
     text-align: center;
     padding: 10px 0;
@@ -85,6 +89,7 @@ body {
 .banner-buttons a:hover {
     transform: scale(1.1);
 }
+/* Auto Presale Section */
 .presale {
     padding: 40px 20px;
     text-align: center;
@@ -215,6 +220,7 @@ body {
     margin-bottom: 10px;
     color: #F5F5F5;
 }
+/* About Boozer Section */
 .about-boozer {
     padding: 40px 20px;
     text-align: center;
@@ -292,6 +298,7 @@ body {
     color: #FFB300;
     margin-bottom: 5px;
 }
+/* Tokenomics Section */
 .tokenomics {
     padding: 40px 20px;
     text-align: center;
@@ -325,7 +332,6 @@ body {
 }
 .tokenomics-bar {
     flex: 1;
-    height: 150px;
     background-image: linear-gradient(to top, #4A148C, #FF4081);
     border-radius: 5px;
     position: relative;
@@ -341,6 +347,25 @@ body {
     top: -20px;
     color: #FFB300;
     font-size: 16px;
+}
+/* Classes for tokenomics bar heights */
+.presale-bar {
+    height: 75px;
+}
+.liquidity-bar {
+    height: 150px;
+}
+.airdrops-bar {
+    height: 10px;
+}
+.team-bar {
+    height: 6px;
+}
+.marketing-bar {
+    height: 6px;
+}
+.reserve-bar {
+    height: 3px;
 }
 .tokenomics-list {
     text-align: left;
@@ -360,6 +385,7 @@ body {
 .tokenomics-list li span:first-child {
     color: #FF4081;
 }
+/* Roadmap Section */
 .roadmap {
     padding: 40px 20px;
     text-align: center;
@@ -445,6 +471,7 @@ body {
     font-size: 16px;
     color: #F5F5F5;
 }
+/* Socials Section */
 .socials {
     padding: 40px 20px;
     text-align: center;
@@ -489,6 +516,7 @@ body {
 .socials-links a:hover {
     transform: scale(1.1);
 }
+/* Disclaimer Section */
 .disclaimer {
     padding: 40px 20px;
     text-align: center;
@@ -513,25 +541,7 @@ body {
     font-size: 16px;
     color: #F5F5F5;
 }
-.wallet-connect {
-    padding: 10px 20px;
-    background-image: linear-gradient(to right, #4A148C, #FF4081);
-    color: #F5F5F5;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: transform 0.3s;
-}
-.wallet-connect:hover {
-    transform: scale(1.1);
-}
-.wallet-connect:disabled {
-    background: #666;
-    cursor: not-allowed;
-    transform: none;
-}
+/* Responsive Design */
 @media (max-width: 768px) {
     .boozer-mascot {
         width: 70px;
